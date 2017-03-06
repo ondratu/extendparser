@@ -41,25 +41,26 @@ class IConfigParser(ConfigParser):
 
     def read_file(self, fp, source=None):
         config_string = BufferIO()
-        includes = set()
 
         for line in fp:
             if line.startswith('.include'):
-                includes.add(line[8:].strip())
+                self.read_buffer(config_string, source)
+
+                self.read(line[8:].strip())     # read includeded ini
+                config_string = BufferIO()      # reset config_string
             else:
                 config_string.write(line)
 
-        config_string.seek(0)
+        self.read_buffer(config_string, source)
+
+    def read_buffer(self, buff, source=None):
+        buff.seek(0)
 
         if version_info.major == 2:
-            ConfigParser.readfp(self, config_string, source)
+            ConfigParser.readfp(self, buff, source)
         else:
             # readfp in python3 call self(SmartConfig).read_file
-            ConfigParser.read_file(self, config_string, source)
-
-        for inc in includes:
-            if inc:
-                self.read(inc)
+            ConfigParser.read_file(self, buff, source)
 
     def read(self, inc):
         if exists(inc):
