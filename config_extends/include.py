@@ -16,30 +16,37 @@
 
 example code:
 
-    >>> from iconfigparser import IConfigParser
+    >>> from config_extends.include import Include
     >>> from sys import stdout
-    >>> cp = IConfigParser()
+    >>> from os import chdir
+    >>> chdir("./tests/data")
+    >>> cp = Include()
     >>> cp.read("test.ini")
-    >>> cp.write(stdout)
+    >>> print(cp.get("main", "key"))
+    value
+    >>> print(cp.get("main", "foo"))
+    bar
 """
 
 from sys import version_info
 from os.path import exists
 
-if version_info.major == 2:
-    from ConfigParser import ConfigParser
-    from io import BytesIO as BufferIO
-else:
-    from configparser import ConfigParser
-    from io import StringIO as BufferIO
+from config_extends.to3 import ConfigParser, BufferIO
 
 
-class IConfigParser(ConfigParser):
+class Include(ConfigParser):
+    """ConfigParser which supports includes.
+
+    Includes are provide by `.include` keyword on empty line. Including is like
+    templating, so each included file expression is replaced in readed config
+    string.
+    """
     def readfp(self, fp, source=None):
         """Alias for read_file like in Python 3.x"""
         self.read_file(fp, source)
 
     def read_file(self, fp, source=None):
+        """Overiding method which support .include expression."""
         config_string = BufferIO()
 
         for line in fp:
@@ -54,6 +61,9 @@ class IConfigParser(ConfigParser):
         self.read_buffer(config_string, source)
 
     def read_buffer(self, buff, source=None):
+        """This method read call original methods.
+
+        Use readfp in python2 or read_file in python3."""
         buff.seek(0)
 
         if version_info.major == 2:
@@ -63,15 +73,7 @@ class IConfigParser(ConfigParser):
             ConfigParser.read_file(self, buff, source)
 
     def read(self, inc):
+        """Overide method to call instance read_file from actual path."""
         if exists(inc):
             with open(inc, 'r') as fp:
                 self.read_file(fp, inc)
-
-
-if __name__ == "__main__":
-    from sys import stdout
-
-    cp = IConfigParser()
-    cp.read("test.ini")
-
-    cp.write(stdout)
