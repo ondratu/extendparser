@@ -2,7 +2,7 @@
 
 example code:
 
-    >>> from config_extends.get import Get
+    >>> from extendparser.get import Get
     >>> cp = Get()
     >>> print(cp.get_option("test", "number", target=int, fallback=1))
     ExtendedParser: Using fallback value `1' for [test]::number
@@ -15,10 +15,14 @@ example code:
     >>> cp.set("test", "tuple", "a:b:c")
     >>> print(cp.get_option("test", "tuple", target=tuple, delimiter=':'))
     ('a', 'b', 'c')
+    >>> print(cp.get_section("test", (("tuple", tuple, tuple(), ':'),
+    ...                               ("string", str, "value"))))
+    ExtendedParser: Using fallback value `value' for [test]::string
+    {'tuple': ('a', 'b', 'c'), 'string': 'value'}
 """
 
-from config_extends.to3 import ConfigParser, NoSectionError, NoOptionError
-from config_extends.log import Logger
+from extendparser.to3 import ConfigParser, NoSectionError, NoOptionError
+from extendparser.log import Logger
 
 
 class Nothing:
@@ -70,3 +74,13 @@ class Get(ConfigParser, Logger):
         true, options without fallback values are not return if is not found
         in config.
         """
+        values = {}
+        for args in options:
+            try:
+                if not isinstance(args, (list, tuple)):
+                    args = (args,)
+                values[args[0]] = self.get_option(section, *args)
+            except (NoSectionError, NoOptionError):
+                if not skip:
+                    raise
+        return values

@@ -16,7 +16,7 @@
 
 example code:
 
-    >>> from config_extends.include import Include
+    >>> from extendparser.include import Include
     >>> from sys import stdout
     >>> from os import chdir
     >>> chdir("./tests/data")
@@ -31,7 +31,7 @@ example code:
 from sys import version_info
 from os.path import exists
 
-from config_extends.to3 import ConfigParser, BufferIO
+from extendparser.to3 import ConfigParser, BufferIO
 
 
 class Include(ConfigParser):

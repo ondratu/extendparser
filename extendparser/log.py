@@ -1,6 +1,6 @@
 """Loging support for any class.
 
-    >>> from config_extends.log import Logger
+    >>> from extendparser.log import Logger
     >>> log = Logger()
     >>> log.log_info("message")
     ExtendedParser: message

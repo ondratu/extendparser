@@ -1,7 +1,7 @@
 """Python version compatibility module to right import some modules.
 
-    >>> from config_extends.to3 import ConfigParser
-    >>> from config_extends.to3 import BufferIO
+    >>> from extendparser.to3 import ConfigParser
+    >>> from extendparser.to3 import BufferIO
 """
 from sys import version_info
 

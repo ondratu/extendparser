@@ -6,8 +6,8 @@ python_path.insert(0, path.abspath(             # noqa
 
 from unittest import TestCase
 
-from config_extends.get import Get
-from config_extends.to3 import NoOptionError, NoSectionError
+from extendparser.get import Get
+from extendparser.to3 import NoOptionError, NoSectionError
 
 LOG = []
 
@@ -86,3 +86,34 @@ class TestNotFound(TestCase):
         with self.assertRaises(NoSectionError):
             self.cfp.get_option("section", "option")
         assert LOG.pop().startswith("[%s]::%s" % ("section", "option"))
+
+
+class TestSection(TestCase):
+    cfp = Get()
+    cfp.log_error = log_fce
+    cfp.add_section("test")
+    cfp.set("test", "string", "value")
+    cfp.set("test", "number", "1")
+    cfp.set("test", "bool", "on")
+    cfp.set("test", "list", "1;2")
+
+    def test_all_string(self):
+        kwargs = self.cfp.get_section("test", ("string", "number", "bool"))
+        assert kwargs == {"string": "value", "number": "1", "bool": "on"}
+
+    def test_mix(self):
+        kwargs = self.cfp.get_section("test", ("string", ("bool", bool),
+                                               ("list", list, [], ';')))
+        assert kwargs == {"string": "value", "bool": True, "list": ['1', '2']}
+
+    def test_skip(self):
+        kwargs = self.cfp.get_section("new", (("string", str, "value"),
+                                              ("bool", bool, False),
+                                              ("number")))
+        assert kwargs == {"string": "value", "bool": False}
+
+    def test_not_skip(self):
+        with self.assertRaises(NoSectionError):
+            self.cfp.get_section("new", (("string", str, "value"),
+                                         ("bool", bool, False),
+                                         ("number")), False)

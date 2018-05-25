@@ -4,11 +4,9 @@ from os import path
 python_path.insert(0, path.abspath(             # noqa
                    path.join(path.dirname(__file__), path.pardir)))
 
-from sys import stdout, stderr
-
 from unittest import TestCase
-from config_extends.to3 import BufferIO
-from config_extends import log
+from extendparser.to3 import BufferIO
+from extendparser import log
 
 LOG = []
 

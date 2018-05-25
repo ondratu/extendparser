@@ -5,7 +5,7 @@ python_path.insert(0, path.abspath(             # noqa
                    path.join(path.dirname(__file__), path.pardir)))
 
 from unittest import TestCase
-from config_extends import to3
+from extendparser import to3
 
 
 class TestTo3(TestCase):
