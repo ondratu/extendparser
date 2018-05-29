@@ -2,15 +2,15 @@
 
 .. code:: ini
 
-    # test.ini
+    # tests/data/test.ini
     [main]
     key = value
 
-    .include include.ini
+    .include tests/data/include.ini
 
 .. code:: ini
 
-    # include.ini
+    # tests/data/include.ini
     [main]
     foo = bar
 
@@ -18,10 +18,8 @@ example code:
 
     >>> from extendparser.include import Include
     >>> from sys import stdout
-    >>> from os import chdir
-    >>> chdir("./tests/data")
     >>> cp = Include()
-    >>> cp.read("test.ini")
+    >>> cp.read("tests/data/test.ini")
     >>> print(cp.get("main", "key"))
     value
     >>> print(cp.get("main", "foo"))

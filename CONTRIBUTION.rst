@@ -16,7 +16,7 @@ run unittest manually by next commands:
     ~$ pytest -v
 
     # doctest (builtin - not output means example codes are OK)
-    ~$ python -m doctest extendparser/*
+    ~$ python -m doctest extendparser/*.py
 
 **pytest** package have many additional extensions so you can use that.
 Next command check all .rst files, source code with pep8 and doctest checkers.
