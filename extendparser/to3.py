@@ -12,4 +12,4 @@ else:
     from configparser import ConfigParser, NoSectionError, NoOptionError
     from io import StringIO as BufferIO
 
-__all__ = [ConfigParser, NoSectionError, NoOptionError, BufferIO]
+__all__ = ["ConfigParser", "NoSectionError", "NoOptionError", "BufferIO"]

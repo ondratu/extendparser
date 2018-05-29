@@ -5,11 +5,9 @@ example code:
     >>> from extendparser.get import Get
     >>> cp = Get()
     >>> print(cp.get_option("test", "number", target=int, fallback=1))
-    ExtendedParser: Using fallback value `1' for [test]::number
     1
     >>> print(cp.get_option("test", "list", target=list, fallback=["a"],
     ...                      delimiter=','))
-    ExtendedParser: Using fallback value `['a']' for [test]::list
     ['a']
     >>> cp.add_section("test")
     >>> cp.set("test", "tuple", "a:b:c")
@@ -17,19 +15,21 @@ example code:
     ('a', 'b', 'c')
     >>> print(cp.get_section("test", (("tuple", tuple, tuple(), ':'),
     ...                               ("string", str, "value"))))
-    ExtendedParser: Using fallback value `value' for [test]::string
     {'tuple': ('a', 'b', 'c'), 'string': 'value'}
 """
 
+from logging import info, warning
+
 from extendparser.to3 import ConfigParser, NoSectionError, NoOptionError
-from extendparser.log import Logger
+
+__all__ = ["Get", "Nothing"]
 
 
 class Nothing:
     pass
 
 
-class Get(ConfigParser, Logger):
+class Get(ConfigParser):
     """Extends ConfigParser for smarter get methods."""
 
     def get_option(self, section, option, target=str, fallback=Nothing,
@@ -51,11 +51,11 @@ class Get(ConfigParser, Logger):
             return target(value)
         except (NoSectionError, NoOptionError):
             if fallback is Nothing:
-                self.log_error("[%s]::%s not defined and no fallback value "
-                               "specified" % (section, option))
+                warning("[%s]::%s not defined and no fallback value "
+                        "specified" % (section, option))
                 raise
-            self.log_info("Using fallback value `%s' for [%s]::%s" %
-                          (fallback, section, option))
+            info("Using fallback value `%s' for [%s]::%s" %
+                 (fallback, section, option))
             return fallback
 
     def get_section(self, section, options, skip=True):

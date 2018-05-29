@@ -6,14 +6,22 @@ python_path.insert(0, path.abspath(             # noqa
 
 from unittest import TestCase
 
+import logging
+
 from extendparser.get import Get
 from extendparser.to3 import NoOptionError, NoSectionError
 
 LOG = []
 
 
-def log_fce(msg):
-    LOG.append(msg)
+class ListHandler(logging.NullHandler):
+    def handle(self, record):
+        LOG.append(record.msg)
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(ListHandler())
 
 
 class TestParse(TestCase):
@@ -49,7 +57,6 @@ class TestParse(TestCase):
 
 class TestDefault(TestCase):
     cfp = Get()
-    cfp.log_info = log_fce
 
     def test_str(self):
         assert self.cfp.get_option(
@@ -74,7 +81,6 @@ class TestDefault(TestCase):
 
 class TestNotFound(TestCase):
     cfp = Get()
-    cfp.log_error = log_fce
     cfp.add_section("test")
 
     def test_no_option(self):
@@ -90,7 +96,6 @@ class TestNotFound(TestCase):
 
 class TestSection(TestCase):
     cfp = Get()
-    cfp.log_error = log_fce
     cfp.add_section("test")
     cfp.set("test", "string", "value")
     cfp.set("test", "number", "1")

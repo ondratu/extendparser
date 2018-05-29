@@ -4,9 +4,8 @@ Contribution
 
 Tests
 -----
-
-`test` command in setup.py run unittest and doctest automaticaly, you can
-run unittest manualy by next commands:
+``test`` command in setup.py run unittest and doctest automatically, you can
+run unittest manually by next commands:
 
 .. code:: sh
 
@@ -17,7 +16,7 @@ run unittest manualy by next commands:
     ~$ pytest -v
 
     # doctest (builtin - not output means example codes are OK)
-    ~$ python -m doctest config_extends/*
+    ~$ python -m doctest extendparser/*
 
 **pytest** package have many additional extensions so you can use that.
 Next command check all .rst files, source code with pep8 and doctest checkers.

@@ -33,6 +33,8 @@ from os.path import exists
 
 from extendparser.to3 import ConfigParser, BufferIO
 
+__all__ = ["ConfigParser"]
+
 
 class Include(ConfigParser):
     """ConfigParser which supports includes.
