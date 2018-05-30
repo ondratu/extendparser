@@ -1,21 +1,22 @@
 """ConfigParser with extends get method for automatics conversion..
 
-example code:
+    example code:
 
-    >>> from extendparser.get import Get
-    >>> cp = Get()
-    >>> print(cp.get_option("test", "number", target=int, fallback=1))
-    1
-    >>> print(cp.get_option("test", "list", target=list, fallback=["a"],
-    ...                      delimiter=','))
-    ['a']
-    >>> cp.add_section("test")
-    >>> cp.set("test", "tuple", "a:b:c")
-    >>> print(cp.get_option("test", "tuple", target=tuple, delimiter=':'))
-    ('a', 'b', 'c')
-    >>> print(cp.get_section("test", (("tuple", tuple, tuple(), ':'),
-    ...                               ("string", str, "value"))))
-    {'tuple': ('a', 'b', 'c'), 'string': 'value'}
+        >>> from extendparser.get import Get
+        >>> cp = Get()
+        >>> print(cp.get_option("test", "number", target=int, fallback=1))
+        1
+        >>> print(cp.get_option("test", "list", target=list, fallback=["a"],
+        ...                      delimiter=','))
+        ['a']
+        >>> cp.add_section("test")
+        >>> cp.set("test", "tuple", "a:b:c")
+        >>> print(cp.get_option("test", "tuple", target=tuple, delimiter=':'))
+        ('a', 'b', 'c')
+        >>> kwargs = cp.get_section("test", (("tuple", tuple, tuple(), ':'),
+        ...                                  ("string", str, "value")))
+        >>> kwargs == {'tuple': ('a', 'b', 'c'), 'string': 'value'}
+        True
 """
 
 from logging import info, warning
@@ -26,6 +27,7 @@ __all__ = ["Get", "Nothing"]
 
 
 class Nothing:
+    """Class using for get_option default parameter."""
     pass
 
 

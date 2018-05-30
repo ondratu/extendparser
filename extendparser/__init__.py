@@ -13,13 +13,13 @@ from extendparser.get import Get
 from extendparser.include import Include
 
 __author__ = "Ondřej Tůma"
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __name__ = "extendparser"
 __copyright__ = "Copyright 2018"
 __license__ = "BSD"
 __email__ = "mcbig@zeropage.cz"
 
-__all__ = ["extend", "include", "get", "to3", "ExtendParser"]
+__all__ = ["include", "get", "to3", "ExtendParser"]
 
 
 class ExtendParser(Get, Include):

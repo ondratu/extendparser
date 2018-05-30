@@ -25,8 +25,8 @@ setup(
     license=__license__,
     packages=["extendparser"],
     data_files=[('share/doc/extendparser',
-                ["README.rst", "COPYING", "ChangeLog", "AUTHORS",
-                 "CONTRIBUTION.rst"])],
+                 ["README.rst", "COPYING", "ChangeLog", "AUTHORS",
+                  "CONTRIBUTION.rst"])],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",

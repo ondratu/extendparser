@@ -1,11 +1,11 @@
+"""Test Include extension."""
 from sys import path as python_path
 from os import path, chdir, getcwd
+from unittest import TestCase
 
 TEST_PATH = path.dirname(__file__)              # noqa
 python_path.insert(0, path.abspath(             # noqa
-                   path.join(TEST_PATH, path.pardir)))
-
-from unittest import TestCase
+    path.join(TEST_PATH, path.pardir)))
 
 from extendparser.include import Include
 
@@ -13,6 +13,7 @@ PWD = getcwd()
 
 
 class TestInclude(TestCase):
+    """Test including."""
     cfp = Include()
 
     @classmethod

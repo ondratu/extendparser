@@ -1,12 +1,12 @@
+"""Test for Get extension."""
 from sys import path as python_path
 from os import path
-
-python_path.insert(0, path.abspath(             # noqa
-                   path.join(path.dirname(__file__), path.pardir)))
-
 from unittest import TestCase
 
 import logging
+
+python_path.insert(0, path.abspath(             # noqa
+    path.join(path.dirname(__file__), path.pardir)))
 
 from extendparser.get import Get
 from extendparser.to3 import NoOptionError, NoSectionError
@@ -15,6 +15,7 @@ LOG = []
 
 
 class ListHandler(logging.NullHandler):
+    """Logging handler for log to list."""
     def handle(self, record):
         LOG.append(record.msg)
 
@@ -25,6 +26,7 @@ logger.addHandler(ListHandler())
 
 
 class TestParse(TestCase):
+    """Test parsing types."""
     cfp = Get()
     cfp.add_section("test")
     cfp.set("test", "string", "value")
@@ -55,7 +57,8 @@ class TestParse(TestCase):
             "test", "tuple", target=tuple, delimiter=';') == ('a', 'b', 'c')
 
 
-class TestDefault(TestCase):
+class TestFallback(TestCase):
+    """Test getting fallback."""
     cfp = Get()
 
     def test_str(self):
@@ -80,6 +83,7 @@ class TestDefault(TestCase):
 
 
 class TestNotFound(TestCase):
+    """Test error states."""
     cfp = Get()
     cfp.add_section("test")
 
@@ -95,6 +99,7 @@ class TestNotFound(TestCase):
 
 
 class TestSection(TestCase):
+    """Test getting full section."""
     cfp = Get()
     cfp.add_section("test")
     cfp.set("test", "string", "value")

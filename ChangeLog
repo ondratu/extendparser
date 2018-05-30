@@ -1,0 +1,14 @@
+ChangeLog
+=========
+
+0.2.0
+-----
+* extendparser.include extension for ``.includes`` support
+* extendparser.get extension for get option and section with specific type
+* complete package
+* full tests
+* moving to new repository https://github.com/ondratu/extendparser
+
+0.1.0
+-----
+* iconfigparser file
