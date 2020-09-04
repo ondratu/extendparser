@@ -6,6 +6,8 @@ ChangeLog
 * Python3.x support only
 * Use pylint instead of flake8
 * pre-commit config
+* EnvironFirst and EnvironLast classes which can read values
+  from environment variables.
 
 0.2.0
 -----

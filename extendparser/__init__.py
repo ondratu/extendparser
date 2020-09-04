@@ -18,7 +18,7 @@ __copyright__ = "Copyright 2018"
 __license__ = "BSD"
 __email__ = "mcbig@zeropage.cz"
 
-__all__ = ["include", "get", "ExtendParser"]
+__all__ = ["include", "get", "environ", "ExtendParser"]
 
 
 # pylint: disable=too-many-ancestors
