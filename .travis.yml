@@ -1,9 +1,10 @@
+---
 language: python
 
 # command to install dependencies
 install:
-  - pip install pytest-pep8 pytest-doctestplus
+ - pip3 install pytest pytest-pylint pytest-doctestplus
 
 # command to run tests
 script:
-  - pytest -v --pep8 --doctest-plus --doctest-rst
+ - pytest -v --pylint --doctest-plus --doctest-rst

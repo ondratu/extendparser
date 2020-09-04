@@ -1,6 +1,5 @@
 """extendparser package installation."""
 from setuptools import setup
-from io import open
 
 from extendparser import __name__ as name, __version__, __author__, \
     __email__, __license__

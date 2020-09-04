@@ -1,15 +1,13 @@
 """Test Include extension."""
-from sys import path as python_path
 from os import path, chdir, getcwd
 from unittest import TestCase
-
-TEST_PATH = path.dirname(__file__)              # noqa
-python_path.insert(0, path.abspath(             # noqa
-    path.join(TEST_PATH, path.pardir)))
 
 from extendparser.include import Include
 
 PWD = getcwd()
+TEST_PATH = path.dirname(__file__)              # noqa
+
+# pylint: disable=missing-function-docstring
 
 
 class TestInclude(TestCase):
@@ -17,12 +15,12 @@ class TestInclude(TestCase):
     cfp = Include()
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         chdir(path.join(TEST_PATH, path.pardir))
-        self.cfp.read("tests/data/test.ini")
+        cls.cfp.read("tests/data/test.ini")
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         chdir(PWD)
 
     def test_include(self):

@@ -20,15 +20,17 @@
 """
 
 from logging import info, warning
-
-from extendparser.to3 import ConfigParser, NoSectionError, NoOptionError
+from configparser import ConfigParser, NoSectionError, NoOptionError
 
 __all__ = ["Get", "Nothing"]
+
+# pylint: disable=too-many-ancestors
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-arguments
 
 
 class Nothing:
     """Class using for get_option default parameter."""
-    pass
 
 
 class Get(ConfigParser):

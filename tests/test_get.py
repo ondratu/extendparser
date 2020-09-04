@@ -1,17 +1,14 @@
 """Test for Get extension."""
-from sys import path as python_path
-from os import path
 from unittest import TestCase
+from configparser import NoOptionError, NoSectionError
 
 import logging
 
-python_path.insert(0, path.abspath(             # noqa
-    path.join(path.dirname(__file__), path.pardir)))
-
 from extendparser.get import Get
-from extendparser.to3 import NoOptionError, NoSectionError
 
 LOG = []
+
+# pylint: disable=missing-function-docstring
 
 
 class ListHandler(logging.NullHandler):
@@ -20,7 +17,7 @@ class ListHandler(logging.NullHandler):
         LOG.append(record.msg)
 
 
-logger = logging.getLogger()
+logger = logging.getLogger()    # pylint: disable=invalid-name
 logger.setLevel(logging.INFO)
 logger.addHandler(ListHandler())
 

@@ -26,12 +26,14 @@
         bar
 """
 
-from sys import version_info
 from os.path import exists
-
-from extendparser.to3 import ConfigParser, BufferIO
+from configparser import ConfigParser
+from io import StringIO
 
 __all__ = ["ConfigParser"]
+
+# pylint: disable=too-many-ancestors
+# pylint: disable=arguments-differ
 
 
 class Include(ConfigParser):
@@ -41,20 +43,17 @@ class Include(ConfigParser):
     templating, so each included file expression is replaced in read config
     string.
     """
-    def readfp(self, fp, source=None):
-        """Alias for read_file like in Python 3.x"""
-        self.read_file(fp, source)
 
-    def read_file(self, fp, source=None):
+    def read_file(self, file_, source=None):
         """Overriding method which support .include expression."""
-        config_string = BufferIO()
+        config_string = StringIO()
 
-        for line in fp:
+        for line in file_:
             if line.startswith('.include'):
                 self.read_buffer(config_string, source)
 
                 self.read(line[8:].strip())     # read includeded ini
-                config_string = BufferIO()      # reset config_string
+                config_string = StringIO()      # reset config_string
             else:
                 config_string.write(line)
 
@@ -66,14 +65,10 @@ class Include(ConfigParser):
         Use readfp in python2 or read_file in python3."""
         buff.seek(0)
 
-        if version_info.major == 2:
-            ConfigParser.readfp(self, buff, source)
-        else:
-            # readfp in python3 call self(SmartConfig).read_file
-            ConfigParser.read_file(self, buff, source)
+        ConfigParser.read_file(self, buff, source)
 
     def read(self, inc):
         """Overriding method to call instance read_file from actual path."""
         if exists(inc):
-            with open(inc, 'r') as fp:
-                self.read_file(fp, inc)
+            with open(inc, 'r') as file_:
+                self.read_file(file_, inc)

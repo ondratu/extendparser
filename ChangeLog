@@ -1,6 +1,12 @@
 ChangeLog
 =========
 
+0.3.0 - dev
+-----------
+* Python3.x support only
+* Use pylint instead of flake8
+* pre-commit config
+
 0.2.0
 -----
 * extendparser.include extension for ``.includes`` support
