@@ -20,6 +20,7 @@
         >>> from sys import stdout
         >>> cp = Include()
         >>> cp.read("tests/data/test.ini")
+        ['tests/data/test.ini']
         >>> print(cp.get("main", "key"))
         value
         >>> print(cp.get("main", "foo"))
@@ -27,6 +28,7 @@
 """
 
 from os.path import exists
+from os import PathLike, fspath
 from configparser import ConfigParser
 from io import StringIO
 
@@ -65,10 +67,18 @@ class Include(ConfigParser):
         Use readfp in python2 or read_file in python3."""
         buff.seek(0)
 
-        ConfigParser.read_file(self, buff, source)
+        super().read_file(buff, source)
 
-    def read(self, inc):
+    def read(self, filenames, encoding=None):
         """Overriding method to call instance read_file from actual path."""
-        if exists(inc):
-            with open(inc, 'r') as file_:
-                self.read_file(file_, inc)
+        if isinstance(filenames, (str, bytes, PathLike)):
+            filenames = [filenames]
+        read_ok = []
+        for filename in filenames:
+            if exists(filename):
+                with open(filename, 'r', encoding=encoding) as file_:
+                    self.read_file(file_, filename)
+            if isinstance(filename, PathLike):
+                filename = fspath(filename)
+            read_ok.append(filename)
+        return read_ok
