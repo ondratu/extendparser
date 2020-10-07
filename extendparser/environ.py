@@ -73,13 +73,13 @@ class EnvironFirst(VarNameBuilder, ConfigParser):
         >>> from extendparser.environ import EnvironFirst
         >>> cp = EnvironFirst()
         >>> cp.add_section("test")
-        >>> cp.getint("test", "number", fallback=1)
+        >>> cp.getint("test", "int_number", fallback=1)
         1
-        >>> cp.set("test", "number", "7")
-        >>> cp.getint("test", "number")
+        >>> cp.set("test", "int_number", "7")
+        >>> cp.getint("test", "int_number")
         7
-        >>> environ["TEST_NUMBER"] = "42"
-        >>> cp.getint("test", "number")
+        >>> environ["TEST_INT_NUMBER"] = "42"
+        >>> cp.getint("test", "int_number")
         42
     """
 
@@ -109,13 +109,13 @@ class EnvironLast(VarNameBuilder, ConfigParser):
         >>> from extendparser.environ import EnvironLast
         >>> cp = EnvironLast()
         >>> cp.add_section("test")
-        >>> cp.getfloat("test", "float", fallback=1.0)
+        >>> cp.getfloat("test", "float_number", fallback=1.0)
         1.0
-        >>> environ["TEST_FLOAT"] = "42"
-        >>> cp.getfloat("test", "float", fallback=1)
+        >>> environ["TEST_FLOAT_NUMBER"] = "42"
+        >>> cp.getfloat("test", "float_number", fallback=1)
         42.0
-        >>> cp.set("test", "float", "3.14")
-        >>> cp.getfloat("test", "float")
+        >>> cp.set("test", "float_number", "3.14")
+        >>> cp.getfloat("test", "float_number")
         3.14
     """
 

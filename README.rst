@@ -1,9 +1,9 @@
 extendparser
 ============
 
-Extend parser is set of ``ConfigParser`` extensions. All extensions are added
-to one final class ``ExtendParser``. For more details see source code, or use
-help.
+Extend parser is set of ``ConfigParser`` extensions. ``Get`` and ``Include``
+extensions are added to one class ``ExtendParser``. For more details see source
+code, or use help.
 
 
 :copyright: 2018, see AUTHORS for more details
@@ -22,7 +22,7 @@ ExtendParser
 
 Include
 ~~~~~~~
-Include class can append content of other configuration to calling. Let's have
+Include class can append content from other configuration files. Let's have
 these configuration files:
 
 .. code:: ini
@@ -58,7 +58,7 @@ Here is the string buffer which ConfiguratinParser will read:
 
 Get
 ~~~
-Get class have two smart methods ``get_option`` and ``get_section`` to get
+Get class has two smart methods ``get_option`` and ``get_section`` to get
 value(s) in any type you want.
 
 .. code:: python
@@ -77,6 +77,48 @@ value(s) in any type you want.
     >>> print(cp.get_section("test", (("tuple", tuple, tuple(), ':'),
     ...                               ("string", str, "value"))))
     {'tuple': ('a', 'b', 'c'), 'string': 'value'}
+
+Environment
+~~~~~~~~~~~
+Environ module has two classes, which extend ``ConfigParser`` to read
+environment variables. There is ``EnvironFirst`` class, which read environment
+variables first, and then use original get method.
+
+
+.. code:: python
+
+    >>> from os import environ
+    >>> from configparser import ConfigParser
+    >>> from extendparser.environ import EnvironFirst
+    >>> cp = EnvironFirst()
+    >>> cp.add_section("test")
+    >>> cp.getint("test", "number", fallback=1)
+    1
+    >>> cp.set("test", "number", "7")
+    >>> cp.getint("test", "number")
+    7
+    >>> environ["TEST_NUMBER"] = "42"
+    >>> cp.getint("test", "number")
+    42
+
+Next ``EnvironLast`` class use environment variable as fallback for original get
+method.
+
+.. code:: python
+
+    >>> from os import environ
+    >>> from configparser import ConfigParser
+    >>> from extendparser.environ import EnvironLast
+    >>> cp = EnvironLast()
+    >>> cp.add_section("test")
+    >>> cp.getfloat("test", "float", fallback=1.0)
+    1.0
+    >>> environ["TEST_FLOAT"] = "42"
+    >>> cp.getfloat("test", "float", fallback=1)
+    42.0
+    >>> cp.set("test", "float", "3.14")
+    >>> cp.getfloat("test", "float")
+    3.14
 
 Installation
 ------------
