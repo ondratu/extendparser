@@ -14,10 +14,10 @@ LOG = []
 class ListHandler(logging.NullHandler):
     """Logging handler for log to list."""
     def handle(self, record):
-        LOG.append(record.msg)
+        LOG.append(record.msg % record.args)
 
 
-logger = logging.getLogger()    # pylint: disable=invalid-name
+logger = logging.getLogger("extendparser")    # pylint: disable=invalid-name
 logger.setLevel(logging.INFO)
 logger.addHandler(ListHandler())
 

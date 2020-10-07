@@ -3,9 +3,11 @@
 """
 from os import environ
 from configparser import ConfigParser
-from logging import debug, info
+from logging import getLogger
 
 # pylint: disable=too-many-ancestors
+
+log = getLogger(__package__)  # pylint: disable=invalid-name
 
 
 class VarNameBuilder():  # pylint: disable=too-few-public-methods
@@ -94,7 +96,7 @@ class EnvironFirst(VarNameBuilder, ConfigParser):
             return super().get(section, option, *args, raw=raw, **kwargs)
 
         key = self.varname(section, option)
-        debug('Try to use %s environment variable' % key)
+        log.debug('Try to use %s environment variable', key)
         if key in environ:
             return environ[key]
 
@@ -124,7 +126,7 @@ class EnvironLast(VarNameBuilder, ConfigParser):
         # pylint: disable=arguments-differ
         key = self.varname(section, option)
         if key in environ:
-            info('Use %s environment variable as fallback' % key)
+            log.info('Use %s environment variable as fallback', key)
             kwargs['fallback'] = environ[key]
 
         return super().get(section, option, *args, **kwargs)

@@ -19,7 +19,7 @@
         True
 """
 
-from logging import info, warning
+from logging import getLogger
 from configparser import ConfigParser, NoSectionError, NoOptionError
 
 __all__ = ["Get", "Nothing"]
@@ -27,6 +27,8 @@ __all__ = ["Get", "Nothing"]
 # pylint: disable=too-many-ancestors
 # pylint: disable=too-few-public-methods
 # pylint: disable=too-many-arguments
+
+log = getLogger(__package__)  # pylint: disable=invalid-name
 
 
 class Nothing:
@@ -55,11 +57,11 @@ class Get(ConfigParser):
             return target(value)
         except (NoSectionError, NoOptionError):
             if fallback is Nothing:
-                warning("[%s]::%s not defined and no fallback value "
-                        "specified" % (section, option))
+                log.warning("[%s]::%s not defined and no fallback value "
+                            "specified", section, option)
                 raise
-            info("Using fallback value `%s' for [%s]::%s" %
-                 (fallback, section, option))
+            log.info("Using fallback value `%s' for [%s]::%s",
+                     fallback, section, option)
             return fallback
 
     def get_section(self, section, options, skip=True):
